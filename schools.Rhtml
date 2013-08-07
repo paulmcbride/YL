@@ -1,0 +1,1008 @@
+<html>
+
+<head>
+<title></title>
+</head>
+
+<body>
+
+<!--begin.rcode set_knitr_chunk_options, echo=FALSE,message=FALSE
+opts_chunk$set(echo=FALSE,message=FALSE,results = "asis") 
+end.rcode-->
+
+<!--begin.rcode load_pander_methods
+replace.print.methods <- function(PKG_name = "pander") {
+     PKG_methods <- as.character(methods(PKG_name))
+   print_methods <- gsub(PKG_name, "print", PKG_methods)
+   for(i in seq_along(PKG_methods)) {
+      f <- eval(parse(text=paste(PKG_name,":::", PKG_methods[i], sep = ""))) # the new function to use for print
+      assign(print_methods[i], f, ".GlobalEnv")
+   }   
+}
+replace.print.methods()
+## The following might work with some tweaks:
+## print <- function (x, ...) UseMethod("pander")
+end.rcode-->
+
+<h1>Youth Health School Survey: 
+<!--begin.rcode 
+the.school 
+end.rcode-->
+</h1>
+
+<h2>Level of agreement with ten statements about health</h2>
+<!--begin.rcode 
+#print.xtable(xtable(DF.Am.happy[1:10,]),"html")
+end.rcode-->
+
+
+<!--begin.rcode plot0101, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.General.health.good, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("My general health is very good") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.General.health.good)), y = -1, label = paste("N=",sums.DF.General.health.good,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0102, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Understand.be.healthy, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I understand how to be healthy") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Understand.be.healthy)), y = -1, label = paste("N=",sums.DF.Understand.be.healthy,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0103, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Eat.nutritious.diet, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I eat a nutritious diet") + 
+        scale_fill_manual(values = yhc_5cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Eat.nutritious.diet)), y = -1, label = paste("N=",sums.DF.Eat.nutritious.diet,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0104, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Right.amount.of.food, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I eat the right amount of food for my lifestyle") + 
+        scale_fill_manual(values = yhc_5cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Right.amount.of.food)), y = -1, label = paste("N=",sums.DF.Right.amount.of.food,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0105, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Am.happy, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I am happy") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Am.happy)), y = -1, label = paste("N=",sums.DF.Am.happy,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0106, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Exercise.regularly, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I exercise regularly") + 
+        scale_fill_manual(values = yhc_5cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Exercise.regularly)), y = -1, label = paste("N=",sums.DF.Exercise.regularly,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0107, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Understand.emotions, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I understand my emotions") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Understand.emotions)), y = -1, label = paste("N=",sums.DF.Understand.emotions,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0108, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Spiritual.beliefs.important, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("Spiritual beliefs are important to me") + 
+        scale_fill_manual(values = yhc_5cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Spiritual.beliefs.important)), y = -1, label = paste("N=",sums.DF.Spiritual.beliefs.important,sep=''), size=3) +
+        #geom_bar() + guides(fill=F) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+
+<!--begin.rcode plot0109, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Feel.valued.in.community, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I feel valued in my community") + 
+        scale_fill_manual(values = yhc_5cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Feel.valued.in.community)), y = -1, label = paste("N=",sums.DF.Feel.valued.in.community,sep=''), size=3) +
+        #geom_bar() + guides(fill=F) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0110, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Connected.to.culture, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I am connected to my culture") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Connected.to.culture)), y = -1, label = paste("N=",sums.DF.Connected.to.culture,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Five questions about family influence on health</h2>
+<!--begin.rcode plot0201, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Family.healthy.food, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your family encourage you to eat healthy food?") + 
+        scale_fill_manual(values = yhc_4cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Family.healthy.food)), y = -1, label = paste("N=",sums.DF.Family.healthy.food,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0202, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Family.healthy.living, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 11))+
+        ggtitle("How much does your family encourage you to understand healthy ways of living?") + 
+        scale_fill_manual(values = yhc_4cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Family.healthy.living)), y = -1, label = paste("N=",sums.DF.Family.healthy.living,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0203, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Family.healthy.living, aes(x=Year,y=percent,fill=Response))
+the.plot<-ggplot(DF.Family.connected.culture, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 11))+
+        ggtitle("How much does your family encourage you to be connected to your culture?") + 
+        scale_fill_manual(values = yhc_4cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Family.connected.culture)), y = -1, label = paste("N=",sums.DF.Family.connected.culture,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0204, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+
+the.plot<-ggplot(DF.Family.understand.emotions, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your family encourage you to understand your emotions?") + 
+        scale_fill_manual(values = yhc_4cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Family.understand.emotions)), y = -1, label = paste("N=",sums.DF.Family.understand.emotions,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0205, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+
+the.plot<-ggplot(DF.Family.regular.exercise, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your family encourage you to do regular exercise?") + 
+        scale_fill_manual(values = yhc_4cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Family.regular.exercise)), y = -1, label = paste("N=",sums.DF.Family.regular.exercise,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Five questions about friends' influence on health</h2>
+<!--begin.rcode plot0206, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+
+the.plot<-ggplot(DF.Friends.healthy.food, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much do your friends encourage you to eat healthy food?") + 
+        scale_fill_manual(values = yhc_4cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Friends.healthy.food)), y = -1, label = paste("N=",sums.DF.Friends.healthy.food,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0207, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Friends.regular.exercise, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much do your friends encourage you to do regular exercise?") + 
+        scale_fill_manual(values = yhc_4cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Friends.regular.exercise)), y = -1, label = paste("N=",sums.DF.Friends.regular.exercise,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0208, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Friends.understand.emotions, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much do your friends encourage you to understand your emotions?") + 
+        scale_fill_manual(values = yhc_4cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Friends.understand.emotions)), y = -1, label = paste("N=",sums.DF.Friends.understand.emotions,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0209, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Friends.be.happy, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much do your friends encourage you to be happy?") + 
+        scale_fill_manual(values = yhc_4cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Friends.be.happy)), y = -1, label = paste("N=",sums.DF.Friends.be.happy,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0210, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Friends.healthy.living, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 11))+
+        ggtitle("How much do your friends encourage you to understand healthy ways of living?") + 
+        scale_fill_manual(values = yhc_4cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Friends.healthy.living)), y = -1, label = paste("N=",sums.DF.Friends.healthy.living,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Five questions about school's influence on health</h2>
+<!--begin.rcode plot0211, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.School.connected.culture, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 11))+
+        ggtitle("How much does your school encourage you to be connected to your culture?") + 
+        scale_fill_manual(values = yhc_4cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.School.connected.culture)), y = -1, label = paste("N=",sums.DF.School.connected.culture,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0212, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.School.healthy.food, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your school encourage you to eat healthy food?") + 
+        scale_fill_manual(values = yhc_4cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.School.healthy.food)), y = -1, label = paste("N=",sums.DF.School.healthy.food,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0213, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.School.healthy.living, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your school encourage you\nto understand healthy ways of living?") + 
+        scale_fill_manual(values = yhc_4cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.School.healthy.living)), y = -1, label = paste("N=",sums.DF.School.healthy.living,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0214, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.School.regular.exercise, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your school encourage you to do regular exercise?") + 
+        scale_fill_manual(values = yhc_4cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.School.regular.exercise)), y = -1, label = paste("N=",sums.DF.School.regular.exercise,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0215, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.School.be.happy, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("How much does your school encourage you to be happy?") + 
+        scale_fill_manual(values = yhc_4cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.School.be.happy)), y = -1, label = paste("N=",sums.DF.School.be.happy,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,90) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Questions about Youth Health Councils</h2>
+<!--begin.rcode plot0301, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.YHC.awareness, aes(x=Year,y=percent,fill=Level))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I know about the Youth Health Council in my school") + 
+        scale_fill_manual(values = yhc_2cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.YHC.awareness)), y = -1, label = paste("N=",sums.DF.YHC.awareness,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,90) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0302, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.YHC.remember.project, aes(x=Year,y=percent,fill=Level))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I can remember a project that the Youth Health Council has run in my school") + 
+        scale_fill_manual(values = yhc_2cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.YHC.remember.project)), y = -1, label = paste("N=",sums.DF.YHC.remember.project,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0303, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.YHC.school.healthier, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("Having a Youth Health Council helps students at my school to be healthier") + 
+        scale_fill_manual(values = yhc_3colsplus1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.YHC.school.healthier)), y = -1, label = paste("N=",sums.DF.YHC.school.healthier,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,60) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Questions about healthcare</h2>
+<!--begin.rcode plot0401, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.YHC.school.healthier, aes(x=Year,y=percent,fill=Agreement))
+the.plot<-ggplot(DF.healthcare, aes(x=Places,y=percent,fill=Places))
+print(the.plot + 
+        ggtitle("Where do you usually go for health care?") + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 10))+
+        theme(axis.text.y=element_text(size = 8))+
+        theme(axis.title.y=element_text(size = 10))+
+        theme(axis.text.x=element_text(angle = 90, hjust = 1,vjust=0.5, size=8))+
+        scale_fill_manual(values = yhc_9cols1) +
+        geom_bar(color="black") + guides(fill=F) +
+        xlab("") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+[Enter text here]
+<!--begin.rcode plot0402, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.HC.last.visit, aes(x=Year,y=percent,fill=Levels))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("When was the last time you went for heathcare?") + 
+        scale_fill_manual(values = yhc_3cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.YHC.school.healthier)), y = -1, label = paste("N=",sums.DF.YHC.school.healthier,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0403, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.barriers, aes(x=Barriers,y=percent,fill=Barriers))
+print(the.plot + 
+        ggtitle("Barriers to accessing health care") + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 10))+
+        theme(axis.text.y=theme_text(size = 8))+
+        theme(axis.title.y=theme_text(size = 10))+
+        theme(axis.text.x=element_text(angle = 90, hjust = 1,vjust=0.5,size=8))+
+        scale_fill_manual(values=yhc_15cols2)+
+        geom_bar(colour="black") + guides(fill=F) +
+        xlab("") +
+        ylab("Percent") +
+        ylim(-1,80) 
+)
+end.rcode-->
+[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Questions about exercise</h2>
+<!--begin.rcode plot0501, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Exercise.important, aes(x=Year,y=percent,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("Is physical exercise an important part of your life?") + 
+        scale_fill_manual(values = yhc_3cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Exercise.important)), y = -1, label = paste("N=",sums.DF.Exercise.important,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0502, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.exercise.frequency, aes(y=percent,x=Response,fill=Response))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        theme(legend.text = element_text(size = 8))+
+        theme(axis.text.x=element_text(angle = 90, hjust = 1,vjust=0.5,size=10))+
+        ggtitle("In the last 7 days, how many times have you done physical exercise?") + 
+        scale_fill_manual(values = yhc_9cols2) +
+        geom_bar(colour="black") + guides(fill=F) +
+#        geom_bar(color="black", position=position_dodge(), show_guide = FALSE,legend.text = element_text(size = 12))+
+#        annotate("text", x=c(1:length(sums)), y = -1, label = paste("N=",sums,sep=''), size=3) +
+        xlab("") +
+        ylab("Percent") +
+        ylim(-1,40) 
+)
+end.rcode-->
+[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Frequency of risk-taking behaviours</h2>
+<!--begin.rcode plot0601, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Got.drunk, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have got drunk") + 
+        scale_fill_manual(values = yhc_5cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Got.drunk)), y = -1, label = paste("N=",sums.DF.Got.drunk,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0602, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Driven.drunk, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have driven whilst drunk") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Driven.drunk)), y = -1, label = paste("N=",sums.DF.Driven.drunk,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0603, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Been.driven.drunk.driver, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have been\nin a car when the driver was drunk") + 
+        scale_fill_manual(values = yhc_5cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Been.driven.drunk.driver)), y = -1, label = paste("N=",sums.DF.Been.driven.drunk.driver,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0604, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Smoked.cigarettes, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have smoked cigarettes") + 
+        scale_fill_manual(values = yhc_5cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Smoked.cigarettes)), y = -1, label = paste("N=",sums.DF.Smoked.cigarettes,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0605, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Used.drugs, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have used drugs") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Used.drugs)), y = -1, label = paste("N=",sums.DF.Used.drugs,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0606, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Beaten.someone.up, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have beaten someone up") + 
+        scale_fill_manual(values = yhc_5cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Beaten.someone.up)), y = -1, label = paste("N=",sums.DF.Beaten.someone.up,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0607, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Had.unprotected.sex, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have had unprotected sex") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Had.unprotected.sex)), y = -1, label = paste("N=",sums.DF.Had.unprotected.sex,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0608, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Concerned.someone.hurt.me, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I felt concerned someone was going to hurt me") + 
+        scale_fill_manual(values = yhc_5cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Concerned.someone.hurt.me)), y = -1, label = paste("N=",sums.DF.Concerned.someone.hurt.me,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0609, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Bullied.by.peers, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have been bullied by my peers") + 
+        scale_fill_manual(values = yhc_5cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Bullied.by.peers)), y = -1, label = paste("N=",sums.DF.Bullied.by.peers,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0610, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Harmed.self.on.purpose, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have harmed myself on purpose") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Harmed.self.on.purpose)), y = -1, label = paste("N=",sums.DF.Harmed.self.on.purpose,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0611, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Seriously.thought.suicide, aes(x=Year,y=percent,fill=Frequency))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("In the past 3 months I have seriously thought about killing myself") + 
+        scale_fill_manual(values = yhc_5cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Seriously.thought.suicide)), y = -1, label = paste("N=",sums.DF.Seriously.thought.suicide,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,100) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>Resiliency factors</h2>
+<!--begin.rcode plot0701, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.People.look.up.to, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I have people I look up to") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.People.look.up.to)), y = -1, label = paste("N=",sums.DF.People.look.up.to,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0702, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Talk.family.about.feelings, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I talk to my family or caregiver(s) about how I feel") + 
+        scale_fill_manual(values = yhc_5cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Talk.family.about.feelings)), y = -1, label = paste("N=",sums.DF.Talk.family.about.feelings,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0703, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Range.of.coping.strategies, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I have a range of positive ways I cope with my problems") + 
+        scale_fill_manual(values = yhc_5cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Range.of.coping.strategies)), y = -1, label = paste("N=",sums.DF.Range.of.coping.strategies,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0704, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Supported.by.friends, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I feel supported by my friends") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Supported.by.friends)), y = -1, label = paste("N=",sums.DF.Supported.by.friends,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0705, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Know.where.help.in.community, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I know where to go in my community to get help") + 
+        scale_fill_manual(values = yhc_5cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Know.where.help.in.community)), y = -1, label = paste("N=",sums.DF.Know.where.help.in.community,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0706, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Belong.at.my.school, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I feel I belong at my school") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Belong.at.my.school)), y = -1, label = paste("N=",sums.DF.Belong.at.my.school,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0707, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Family.stands.by.me, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("My family stands by me during difficult times") + 
+        scale_fill_manual(values = yhc_5cols3) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Family.stands.by.me)), y = -1, label = paste("N=",sums.DF.Family.stands.by.me,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0708, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Know.who.ask.about.health, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("If I have questions about health I know who to ask") + 
+        scale_fill_manual(values = yhc_5cols4) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Know.who.ask.about.health)), y = -1, label = paste("N=",sums.DF.Know.who.ask.about.health,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0709, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Know.where.to.get.healthcare, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("When I need health care I know where to go") + 
+        scale_fill_manual(values = yhc_5cols5) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Know.where.to.get.healthcare)), y = -1, label = paste("N=",sums.DF.Know.where.to.get.healthcare,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0710, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Comfortable.about.getting.healthcare, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I feel comfortable getting help about health") + 
+        scale_fill_manual(values = yhc_5cols1) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Comfortable.about.getting.healthcare)), y = -1, label = paste("N=",sums.DF.Comfortable.about.getting.healthcare,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+<!--begin.rcode plot0711, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+the.plot<-ggplot(DF.Quick.to.seek.help, aes(x=Year,y=percent,fill=Agreement))
+print(the.plot + 
+        theme_classic()+      
+        theme(panel.margin = unit(c(0,0,0,0), "cm")) +
+        theme(plot.title = element_text(size = 12))+
+        ggtitle("I am quick to seek out help about health when I need it") + 
+        scale_fill_manual(values = yhc_5cols2) +
+        geom_bar(stat="identity", position=position_dodge()) +
+        geom_bar(color="black", position=position_dodge(), show_guide = FALSE)+
+        annotate("text", x=c(1:length(sums.DF.Quick.to.seek.help)), y = -1, label = paste("N=",sums.DF.Quick.to.seek.help,sep=''), size=3) +
+        xlab("Year") +
+        ylab("Percent") +
+        ylim(-1,70) 
+)
+end.rcode-->
+<sup></i>N values below bars indicate number of responses for each year</i></sup><br><br>[Enter text here]
+
+
+
+
+
+</body>
+</html>
