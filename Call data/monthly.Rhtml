@@ -1,0 +1,263 @@
+<html>
+
+<head>
+<title></title>
+</head>
+
+<body>
+
+<!--begin.rcode set_knitr_chunk_options, echo=FALSE,message=FALSE
+opts_chunk$set(echo=FALSE,message=FALSE,results = "asis") # important for making sure the output will be well formatted.
+end.rcode-->
+ 
+<!--begin.rcode load_pander_methods
+replace.print.methods <- function(PKG_name = "pander") {
+     PKG_methods <- as.character(methods(PKG_name))
+   print_methods <- gsub(PKG_name, "print", PKG_methods)
+   for(i in seq_along(PKG_methods)) {
+      f <- eval(parse(text=paste(PKG_name,":::", PKG_methods[i], sep = ""))) # the new function to use for print
+      assign(print_methods[i], f, ".GlobalEnv")
+   }   
+}
+replace.print.methods()
+## The following might work with some tweaks:
+## print <- function (x, ...) UseMethod("pander")
+end.rcode-->
+
+<p>
+<h1>SUMMARY FOR
+<!--begin.rcode 
+paste(newdate$mday[1],"/",newdate$mon[1]+1,"/",newdate$year[1]+1900," to ",newdate$mday[length(newdate)],"/",newdate$mon[length(newdate)]+1,"/",newdate$year[length(newdate)]+1900,sep='')
+end.rcode-->
+</h1></p><br><br>
+<h2>Table of Contents
+<!--begin.rcode 
+pages.table <- data.frame(c("Call lengths for helpline and triage calls","Managed callers summary","Cellphone, landline and anonymous call volumes","Top 10 callers by total call time","Top 10 callers by number of calls answered","Top 10 callers by number of calls attempted","Summary of daily call volumes","Summary of unique daily caller numbers","Busiest days and times for helpline","Summaries for regional Youthline centres and Triage","Cook Islands","Urgent support calls","Youthline Auckland office summary"),c("2","2","2","3","3","4","5","6","7","9","10","10","11"))
+colnames(pages.table) <- c("", "Page Number")
+print.xtable(xtable(pages.table),"html",include.rownames=F)
+end.rcode-->
+</h2>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<p>
+<h3>Call lengths for helpline and triage calls</h3>
+<!--begin.rcode 
+print.xtable(xtable(call.length.table[1:4,]),"html",include.rownames=F)
+end.rcode-->
+</p>
+<p>
+<h3>Median and mean call lengths for triage and helpline calls</h3>
+<!--begin.rcode 
+print.xtable(xtable(averages.table[c(2,1),]),"html",include.rownames=F)
+end.rcode-->
+<i><sup>Note: Median values are more representative of typical call length than means.</sup></i>
+</p>
+<p><br>
+<h3>Ten longest calls received by the helpline</h3>
+<!--begin.rcode 
+cat("Length (mins): ",paste(longest.calls[1:9],", ",sep=''),longest.calls[10])
+longest.table <- data.frame(as.character(longest.calls[1:5]),as.character(longest.calls[6:10]))
+end.rcode-->
+</p>
+<p>
+<h3>Managed callers summary</h3>
+The number of unique callers actively routed to Triage queues was: 
+<!--begin.rcode 
+paste(triage.unique.routed)
+end.rcode-->
+</p>
+<p>
+<h3>Cellphone, landline and anonymous calls</h3>
+<!--begin.rcode 
+print.xtable(xtable(caller.table),"html",include.rownames=F)
+end.rcode-->
+</p>
+<br><br><br><br><br>
+<h3>Top 10 callers by total call time</h3>
+<!--begin.rcode 
+print.xtable(xtable(MFC.time),"html",include.rownames=F)
+end.rcode-->
+<br><h3>Top 10 callers by number of calls answered</h3>
+<!--begin.rcode 
+print.xtable(xtable(MFC.answered),"html",include.rownames=F)
+end.rcode-->
+<br><br><br><h3>Top 10 callers by number of calls attempted</h3>
+<!--begin.rcode 
+print.xtable(xtable(MFC.calls),"html",include.rownames=F)
+end.rcode-->
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<h3>Summary of daily call volumes</h3>
+
+<b>Note:</b> <i>While total call volumes are of interest, the proportion of the total call volume answered is</i> not <i>considered a useful metric for helpline performance</i>
+<!--begin.rcode  Plot2, fig.width=6.5, dev="png",fig.height=5, dpi=300,  fig.cap=""
+par(mar=c(5, 4, 4, 4) + 0.1)
+ttl <- paste("Total call volumes and statistics for ",months(newdate[1]),sep='', " ",newdate$year[1]+1900)
+ylt=max(200,by.day$Total.calls)
+ylt=max(pretty(ylt))
+plot(by.day$Day.of.the.month,by.day$Total.calls,type='o', ylim=c(0,ylt), ylab="Number of calls/day",xlab="Day",yaxt='n',main=ttl,cex.main=1)
+axis(2,at=(seq(0,ylt,length.out=length(pretty(0:ylt,n=6)))),labels=pretty(0:ylt,n=6),cex.axis=0.7)
+abline(ylt*median(by.day$proportion.answered),0, lty=2, col='red')
+abline(v=by.day$Day.of.the.month[by.day$Weekdays=="Sunday"], lty=1, col='grey70')
+legend("topright",c("Vertical lines=Sundays","Median % answered"),lty=c(1,2),col=c('grey70','red'), cex=0.5, bty='n')
+par(new=T)
+plot(by.day$Day.of.the.month,by.day$proportion.answered,ylab='',xlab='', axes=F, type='o',ylim=c(0,1), col='red')
+axis(4,at=(seq(from=0, to=1,length.out=6)),labels=c(0,20,40,60,80,100),col.ticks='red',col.axis='red',cex.axis=0.7)
+mtext(4,text="Percent of calls answered/day",col='red',line=2)
+end.rcode-->
+<b>Total monthly calls: 
+<!--begin.rcode
+paste(sum(by.day$Total.calls))
+end.rcode-->
+</b><br><br>
+Median number of calls per day: 
+<!--begin.rcode
+paste(median(by.day$Total.calls))
+end.rcode-->
+<br>
+Median daily percentage of total calls answered: 
+<!--begin.rcode
+paste(round(100*median(by.day$proportion.answered),2),"%",sep='') 
+end.rcode-->
+<br><sup>Note: this weights days evenly, regardless of call volume (i.e. reflects 'typical' days)</sup>
+<br><br>
+Monthly percentage of all calls answered: 
+<!--begin.rcode
+paste(round(100*sum(by.day$N)/sum(by.day$Total.calls),2),"%",sep='') 
+end.rcode-->
+<br><sup>Note: this weights each call evenly, and will be lower than the above median because of the influence of the worst days</sup>
+<br><br><br><br><br><br><br><br><br>
+<h3>Summary of unique daily caller numbers</h3>
+<b>Note:</b> <i>The proportion of unique callers answered is a useful metric for helpline performance.</i>
+
+<!--begin.rcode Plot1, fig.width=6.5, dev="png", fig.height=5, dpi=300,  fig.cap=""
+par(mar=c(5, 4, 4, 4) + 0.1)
+ttl <- paste("Unique caller volumes and statistics for ",months(newdate[1]),sep='', " ",newdate$year[1]+1900)
+ylt=max(80,by.day$Total.unique.callers)
+ylt=max(pretty(ylt))
+plot(by.day$Day.of.the.month,by.day$Total.unique.callers,type='o', ylim=c(0,ylt), ylab="Unique callers/day",xlab="Day of the month",yaxt='n',main=ttl,cex.main=1)
+axis(2,at=(seq(0,ylt,length.out=length(pretty(0:ylt,n=6)))),labels=pretty(0:ylt,n=6),cex.axis=0.7)
+abline(ylt*median(by.day$proportion.unique.answ),0, lty=2, col='red')
+abline(v=by.day$Day.of.the.month[by.day$Weekdays=="Sunday"], lty=1, col='grey70')
+legend("topright",c("Vertical lines=Sundays","Median % answered"),lty=c(1,2),col=c('grey70','red'), cex=0.5, bty='n')
+par(new=T)
+plot(by.day$Day.of.the.month,by.day$proportion.unique.answ,ylab='',xlab='', axes=F, type='o',ylim=c(0,1), col='red')
+axis(4,at=(seq(from=0, to=1,length.out=6)),labels=c(0,20,40,60,80,100),col.ticks='red',col.axis='red',cex.axis=0.7)
+mtext(4,text="Percent unique callers answered/day",col='red',line=2)
+end.rcode-->
+Median number of unique callers per day: 
+<!--begin.rcode
+paste(median(by.day$Total.unique.callers))
+end.rcode-->
+<br>Median number of people unable to get service per day: 
+<!--begin.rcode
+paste(median(by.day$people.no.service))
+end.rcode-->  
+<br>Daily unique callers for the month: 
+<!--begin.rcode
+paste(sum(by.day$Total.unique.callers))
+end.rcode-->
+<br>Daily unique callers unable to get service for the month:  
+<!--begin.rcode
+paste(sum(by.day$people.no.service))
+end.rcode--> 
+<br><sup>Note: Daily unique callers are individuals counted once for each day they call. They are counted as answered on a given day if at least one of their calls is answered.</sup>
+<br>
+<br>Median daily percentage of unique callers answered: 
+<!--begin.rcode
+paste(round(100*median(by.day$proportion.unique.answ),2),"%",sep='')
+end.rcode-->
+<br><sup>Note: this weights days evenly, regardless of call volume (i.e. reflects 'typical' days)</sup>
+<br><br>
+Overall percentage of daily unique callers answered: 
+<!--begin.rcode
+paste(round(100*(1-sum(by.day$people.no.service)/sum(by.day$Total.unique.callers)),2),"%",sep='') 
+end.rcode-->  
+<br><sup>Note: this weights each caller evenly, and will be lower than the above median because of the influence of low performance days. Callers are counted as unique each day and are counted as answered if at least one of their calls that day is answered </sup>
+<br><br><br><br><br><br>
+<p><h3>Busiest days and times for helpline</h3></p><br>
+<h3>Average call and caller numbers by day of the week</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(DOW.table),"html",include.rownames=F)
+end.rcode-->
+<br>Busiest day (total call volume): 
+<!--begin.rcode
+paste(DOW.table$"Day of week"[DOW.table$"Average call volume"==max(DOW.table$"Average call volume")])
+end.rcode-->
+<br>
+Busiest day (number of unique callers): 
+<!--begin.rcode
+paste(DOW.table$"Day of week"[DOW.table$"Average number of unique callers"==max(DOW.table$"Average number of unique callers")])
+end.rcode-->
+</p>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h3>Average call and caller numbers by hour of the day</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(busiest.hour),"html",include.rownames=F)
+end.rcode-->
+<br>Busiest hour (total call volume): 
+<!--begin.rcode
+paste(busiest.hour$Hour[busiest.hour$"Average call volume"==max(busiest.hour$"Average call volume")])
+end.rcode-->
+<br>
+Busiest hour (number of unique callers): 
+<!--begin.rcode
+paste(busiest.hour$Hour[busiest.hour$"Average number of unique callers"==max(busiest.hour$"Average number of unique callers")])
+end.rcode-->
+
+<h3>Summaries for regional Youthline centres and Triage (landline calls only)</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(centres.table[1:7,1:6]),"html",include.rownames=F)
+end.rcode-->
+<sup>Missed calls are those not answered by any centre, including Triage</sup>
+</p><p><br>
+<h3>Incoming and answered calls for Triage</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(triage.table),"html",include.rownames=F)
+end.rcode-->
+</p><p><br>
+<h3>Total calls answered by regional centres and Triage</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(dfct,digits=0),"html",include.rownames=F)
+end.rcode-->
+</p><br><br>
+<h3>Summary of calls by centre that were directly answered and answered after being transferred by triage</h3>
+<!--begin.rcode, resize.width=800
+direct.and.triage <- data.frame(c("Ponsonby","Manukau","Palmerston North","Wellington","Chch","Otago","Southland","Total"),c(centres.table$"Total calls answered by centre"[1]-GL.trans,centres.table$"Total calls answered by centre"[2]-mnk.trans,centres.table$"Total calls answered by centre"[3]-PN.trans,centres.table$"Total calls answered by centre"[4]-wel.trans,centres.table$"Total calls answered by centre"[5]-chch.trans,centres.table$"Total calls answered by centre"[6]-dun.trans,centres.table$"Total calls answered by centre"[7]-inv.trans,0),c(GL.trans,mnk.trans,PN.trans,wel.trans,chch.trans,dun.trans,inv.trans,0))
+colnames(direct.and.triage) <- c("Centre","Directly answered","Transferred from triage")
+direct.and.triage[8,] <- c("Total",sum(direct.and.triage[,2]),sum(direct.and.triage[,3]))
+print.xtable(xtable(direct.and.triage),"html",include.rownames=F)
+end.rcode-->
+<br>
+<h3>Summary of Cook Island calls</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(cook.islands),"html",include.rownames=F)
+end.rcode-->
+<p><br>
+<h3>Summary of 'urgent support line' calls (Queue 789)</h3>
+<!--begin.rcode, resize.width=800
+print.xtable(xtable(urgent.table),"html",include.rownames=F)
+end.rcode-->
+</p>
+<br><br><br><br><br><br><br><br><br>
+<h1>YOUTHLINE AUCKLAND OFFICE CALL SUMMARY</h1>
+<br><br>
+<h3>Total office calls</h3>
+Calls answered at the Auckland, Manukau and North Shore offices (business hours 9-5, excluding below services):
+<!--begin.rcode
+print.xtable(xtable(office.table),"html",include.rownames=F)
+end.rcode-->
+<br><br><br>
+<h3>Summary of call volumes to various Youthline services (business hours 9-5)</h3>
+<!--begin.rcode
+print.xtable(xtable(sas.table.BH),"html",include.rownames=F)
+end.rcode-->
+<br>
+<h3>Summary of miscarriage support line  </h3>
+<!--begin.rcode
+miscar.table <- data.frame(c("Total calls","Answered calls","Missed calls","Average call duration","Messages left"))
+miscar.table$Count <- c(as.character(miscarriage[1,1]),as.character(miscarriage[1,2]),as.character(miscarriage[1,3]),as.character(miscarriage[1,4]),as.character(miscarriage[1,5]))
+colnames(miscar.table) <- c("","")
+print.xtable(xtable(miscar.table),"html",include.rownames=F)
+end.rcode-->
+<br>
